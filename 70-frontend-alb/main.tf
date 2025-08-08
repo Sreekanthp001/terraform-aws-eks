@@ -6,7 +6,7 @@ module "ingress_alb" {
     vpc_id = local.vpc_id
     subnets = local.public_subnet_ids
     create_security_group = false
-    security_group = [local.ingress_alb_sg_id]
+    security_groups = [local.ingress_alb_sg_id]
     enable_deletion_protection = false
     tags = merge(
         local.common_tags,
