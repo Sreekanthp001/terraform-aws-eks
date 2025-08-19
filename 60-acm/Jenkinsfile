@@ -20,7 +20,7 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws-creds', region: 'us-east-1') {
                         sh """
-                            cd 00-vpc
+                            cd 60-acm
                             terraform init -reconfigure
                         """
                     }
@@ -33,7 +33,7 @@ pipeline {
                 script {
                     withAWS(credentials: 'aws-creds', region: 'us-east-1') {
                         sh """
-                            cd 00-vpc
+                            cd 60-acm
                             terraform plan
                         """
                     }
@@ -41,29 +41,14 @@ pipeline {
             }
         }
         stage('apply') {
-            input {
-                message "Should we continue?"
-                ok "Yes, we should."
-                submitter "alice,bob"
-            }
             steps {
                 script {
                     withAWS(credentials: 'aws-creds', region: 'us-east-1') {
                         sh """
-                            cd 00-vpc
+                            cd 60-acm
                             terraform apply -auto-approve
                         """
                     }
-                }
-            }
-        }
-        // down stream job (added 19/08/25)
-        stage('Trigger SG') {
-            steps {
-                script {
-                    build job: '10-sg',
-                        propagate: false, //even sg fails vpc will not be effected
-                        wait: false //vpc will not wait for sg pipeline completion
                 }
             }
         }
