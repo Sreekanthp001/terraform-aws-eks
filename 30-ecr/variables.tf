@@ -7,5 +7,5 @@
  }
 
  variable "images" {
-     default = ["catalogue", "user", "cart", "shipping", "payment", "fronted"]
+     default = [ "user", "cart", "shipping", "payment", "fronted"]
  }
